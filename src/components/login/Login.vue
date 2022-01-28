@@ -18,10 +18,10 @@
                     <input class="inner-input-data" type="password" v-model="userPassword"/>
                 </div>
                 <div class="error-msg" v-if="isError === true">
-                    <h4>{{ $root.state.isLoginDesc }}</h4>
+                    <h5>{{ $root.state.isLoginDesc }}</h5>
                 </div>
                 <button class="btn btn-secondary" @click="haddleLogin">Login</button>
-                <button class="btn btn-secondary">Register</button>
+                <button class="btn btn-secondary" @click="toRegister">Register</button>
           </div>
       </div>
       <div class="login-content" v-if="$root.state.isLogin === true">
@@ -45,38 +45,59 @@ export default {
     },
     methods:{
         async haddleLogin(){
-            
-            const headerCongfig = {
+
+            if(this.userEmail === null){
+                this.isError = true
+                this.$root.state.isLoginDesc = "Email must not be empty."
+            }
+            else if(this.userEmail.includes("@") !== true){
+                this.isError = true
+                this.$root.state.isLoginDesc = "Make sure you are enter correct email."
+            }
+            else if(this.userPassword === null){
+                this.isError = true
+                this.$root.state.isLoginDesc = "password must not be empty."              
+            }
+            else{
+
+                const headerCongfig = {
                 headers:{
                     'Content-Type': 'application/json'
+                    }
                 }
-            }
 
-            const setUserLogin = {
-                email: this.userEmail,
-                password: this.userPassword
-            }
-            console.log(setUserLogin)
+                const setUserLogin = {
+                    email: this.userEmail,
+                    password: this.userPassword
+                }
+                // console.log(setUserLogin)
+                
 
-            const userData = await axios.post('http://localhost:3300/userprofile', setUserLogin, headerCongfig);
-            console.log(userData)
-            if(userData.data.statusLogin === true){
-                this.$root.state.userFirstName = userData.data.firstname;
-                this.$root.state.userLastName = userData.data.lastname;
-                this.$root.state.userEmail = userData.data.email;
-                this.$root.state.userPhoto = userData.data.photo;
-                this.$root.state.isLogin = true;
-                this.$root.state.isLoginDesc = userData.data.statusDesc
-                alert(userData.data.statusDesc);
-                this.$router.push('/Profile')
-            }else{
-                this.isError = true
-                this.$root.state.isLogin = false;
-                this.$root.state.isLoginDesc = userData.data.statusDesc
-            }
+                const userData = await axios.post('http://localhost:3300/userprofile', setUserLogin, headerCongfig);
+                // console.log(userData)
+                if(userData.data.statusLogin === true){
+                    this.$root.state.userFirstName = userData.data.firstname;
+                    this.$root.state.userLastName = userData.data.lastname;
+                    this.$root.state.userEmail = userData.data.email;
+                    this.$root.state.userPhoto = userData.data.photo;
+                    this.$root.state.isLogin = true;
+                    this.$root.state.isLoginDesc = userData.data.statusDesc
+                    alert(userData.data.statusDesc);
+                    this.$router.push('/Profile')
+                }else{
+                    this.isError = true
+                    this.$root.state.isLogin = false;
+                    this.$root.state.isLoginDesc = userData.data.statusDesc
+                }
 
-            // console.log(userData);
-            // this.userData = userData.data
+                // console.log(userData);
+                // this.userData = userData.data
+            }
+            
+            
+        },
+        toRegister(){
+            this.$router.push('/register')
         }
     }
 }
@@ -116,7 +137,7 @@ export default {
 .login-content{
     background-color: rgb(218, 216, 216);
     width: 35%;
-    height: 350px;
+    height: 400px;
     margin: auto;
     padding-top: 1px;
     border-radius: 30px;
@@ -128,5 +149,9 @@ export default {
     margin-top: 9rem;
 }
 
- 
+.error-msg{
+    text-align: center;
+    color: red;
+    margin-top: 1rem;
+}
 </style>
