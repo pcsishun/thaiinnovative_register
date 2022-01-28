@@ -1,11 +1,12 @@
 import VueRouter from 'vue-router'
 import Login from './components/login/Login.vue'
 import Register from './components/register/Register.vue' 
-
+import Profile from './components/profile/Profile.vue'
 
 const routes = [
     {path:'/', component:Login},
     {path:'/register', component:Register},
+    {path: '/profile', component:Profile}
 ]
 
 const router = new VueRouter({

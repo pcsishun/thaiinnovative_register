@@ -1,11 +1,10 @@
 <template>
   <div class="login-container">
-      <div class="set-login-content">
+      <div class="set-login-content" v-if="$root.state.isLogin === false">
           <div class="login-title">
               <h4>Login</h4>
           </div>
           <div class="login-content">
-              <form>
                 <div class="label-input">
                     <label><h5>Email</h5></label>
                 </div>
@@ -18,20 +17,66 @@
                 <div class="input-data">
                     <input class="inner-input-data" type="password" v-model="userPassword"/>
                 </div>
-                <button class="btn btn-secondary">Login</button>
+                <div class="error-msg" v-if="isError === true">
+                    <h4>{{ $root.state.isLoginDesc }}</h4>
+                </div>
+                <button class="btn btn-secondary" @click="haddleLogin">Login</button>
                 <button class="btn btn-secondary">Register</button>
-              </form>
           </div>
+      </div>
+      <div class="login-content" v-if="$root.state.isLogin === true">
+          <div class="set-title-login-status"></div>
+        <h4>Your are now login with email {{ $root.state.userEmail }}</h4>
       </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data(){
         return{
             userEmail: null,
-            userPassword: null
+            userPassword: null,
+            isError: false
+            // userData: "null"
+        }
+    },
+    methods:{
+        async haddleLogin(){
+            
+            const headerCongfig = {
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            }
+
+            const setUserLogin = {
+                email: this.userEmail,
+                password: this.userPassword
+            }
+            console.log(setUserLogin)
+
+            const userData = await axios.post('http://localhost:3300/userprofile', setUserLogin, headerCongfig);
+            console.log(userData)
+            if(userData.data.statusLogin === true){
+                this.$root.state.userFirstName = userData.data.firstname;
+                this.$root.state.userLastName = userData.data.lastname;
+                this.$root.state.userEmail = userData.data.email;
+                this.$root.state.userPhoto = userData.data.photo;
+                this.$root.state.isLogin = true;
+                this.$root.state.isLoginDesc = userData.data.statusDesc
+                alert(userData.data.statusDesc);
+                this.$router.push('/Profile')
+            }else{
+                this.isError = true
+                this.$root.state.isLogin = false;
+                this.$root.state.isLoginDesc = userData.data.statusDesc
+            }
+
+            // console.log(userData);
+            // this.userData = userData.data
         }
     }
 }
@@ -58,13 +103,13 @@ export default {
 }
 .btn{
     margin-top: 35px;
-    width: 150px;
+    width: 20%;
     border-radius: 30px;
     margin-left: 1rem;
     margin-right: 1rem;
 }
 .inner-input-data{
-    width: 350px;
+    width: 60%;
     border: 1px solid rgb(181, 181, 181);
     border-radius: 8px;
 }
@@ -76,6 +121,11 @@ export default {
     padding-top: 1px;
     border-radius: 30px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.set-title-login-status{
+    text-align: center;
+    margin-top: 9rem;
 }
 
  

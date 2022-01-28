@@ -1,6 +1,7 @@
 const store = {
     state:{
         isLogin: false, 
+        isLoginDesc: null,
         userFirstName: null,
         userLastName: null,
         userEmail:null,
