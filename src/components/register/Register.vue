@@ -94,7 +94,7 @@
 
 <script>
 import { QrcodeStream } from 'vue-qrcode-reader'
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
     components:{
@@ -129,10 +129,42 @@ export default {
             console.log(data)
             this.containerCode = data;
         },
-        haddleSubmit(){
+        async haddleSubmit(){
             if(this.password !== this.confirmPassword){
                 this.errorReply = "password not match"
-            } 
+            }else{
+                const headerCongfig = {
+                headers:{
+                    'Content-Type': 'application/json'
+                    }
+                }
+
+                const bodyData = {
+                    photo: null,
+                    firstName: this.firstName,
+                    lastName: this.lastName,
+                    email: this.email,
+                    password: this.password,
+                    containerCode: this.containerCode
+                }
+
+                await axios.post('http://localhost:3300/register',bodyData, headerCongfig)
+                .then((res) => {
+                    console.log(res.data)
+                    if(res.data.registerStatus === true){
+                         alert(res.data.text);
+                         alert("please login again to success register");
+                         this.$router.push('/')
+                    }
+                    if(res.data.registerStatus === false){
+                        this.errorReply = res.data.text
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                    alert(err + "please copy this error and contact admin.")
+                })
+            }
         },
         showFilePreview(e) {
             let files = e.target.files || e.dataTransfer.files;
@@ -214,4 +246,6 @@ export default {
     border-radius: 8px;
     margin-right: 10px;
 }
+
+
 </style>
