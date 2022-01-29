@@ -52,7 +52,29 @@
                                 <input class="set-on-input" type="password" v-model="confirmPassword" required/>
                             </div>
                         </div>
-                        <div class="error-msg-container" v-if="errorReplyp !== null">
+                        <div class="containerCode-container">
+                            <div class="set-qr-scaner" v-if="QRreader === true">
+                                <qrcode-stream  @decode="onDecode"></qrcode-stream>
+                            </div>
+                            <div class="set-label">
+                                <label>Container Code</label>
+                            </div>
+                            <div class="set-input">
+                                <input class="set-on-input-cam" type="text" v-model="containerCode" required/>
+                                <span class="img-camera" v-if="QRreader === false">
+                                    <button class="set-btn-border" @click="onSetScan">
+                                        <i class="fa fa-camera" style="font-size:24px"></i>
+                                    </button>
+                                </span>
+                                <span class="img-camera" v-if="QRreader === true">
+                                    <button class="set-btn-border" @click="onSetScan">
+                                        <i class="fa fa-power-off" style="font-size:24px;color:red"></i>
+                                    </button>
+                                </span>
+                                    
+                            </div>
+                        </div>
+                        <div class="error-msg-container" v-if="errorReply !== null">
                             <h5>{{ errorReply }}</h5>
                         </div>
                         <div class="btn-submit">
@@ -60,6 +82,8 @@
                         </div>
                     </form>
                 </div>
+                <br>
+           
             </div>
         </div>
         <div class="footer-set"> 
@@ -69,9 +93,13 @@
 </template>
 
 <script>
+import { QrcodeStream } from 'vue-qrcode-reader'
 // import axios from 'axios'
 
 export default {
+    components:{
+        QrcodeStream
+    },
     data(){
         return{
             avatar: null,
@@ -81,11 +109,26 @@ export default {
             password: null,
             confirmPassword:null,
             errorReply:null,
-            image: null
+            image: null,
+            containerCode:null,
+            QRreader: false,
+            QRData: null
+            
             
         }
     },
     methods:{
+        onSetScan(){
+            if(this.QRreader === false){
+                this.QRreader = true
+            }else{
+                this.QRreader = false
+            }
+        },
+        onDecode(data){
+            console.log(data)
+            this.containerCode = data;
+        },
         haddleSubmit(){
             if(this.password !== this.confirmPassword){
                 this.errorReply = "password not match"
@@ -131,14 +174,14 @@ export default {
     border-radius: 50px;
 }
 
-.avatar-container,.btn-submit, .firstname-container, .lastname-contianer, .email-contianer, .password-container, .confirm-password-container{
+.avatar-container,.btn-submit,.containerCode-container, .firstname-container, .lastname-contianer, .email-contianer, .password-container, .confirm-password-container{
     margin-top: 20px;
 }
 
 .body-content{
     background-color: rgb(218, 216, 216);
     width: 50%;
-    height: 600px;
+    height: 100%;
     margin: auto;
     padding-top: 1rem;
     border-radius: 30px;
@@ -154,5 +197,21 @@ export default {
     border: none;
     border-radius: 8px;
     width: 50%;
+}
+.set-btn-border{
+    border: none;
+    background: none;
+}
+
+.set-qr-scaner{
+    width: 250px;
+    height: 250px;
+    margin: auto;
+}
+
+.set-on-input-cam{
+    border: none;
+    border-radius: 8px;
+    margin-right: 10px;
 }
 </style>
