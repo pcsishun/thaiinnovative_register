@@ -76,12 +76,12 @@ export default {
                 const userData = await axios.post('http://localhost:3300/userprofile', setUserLogin, headerCongfig);
                 // console.log(userData)
                 if(userData.data.statusLogin === true){
-                    this.$root.state.userFirstName = userData.data.firstname;
-                    this.$root.state.userLastName = userData.data.lastname;
-                    this.$root.state.userEmail = userData.data.email;
                     this.$root.state.userPhoto = userData.data.photo;
-                    this.$root.state.isLogin = true;
-                    this.$root.state.isLoginDesc = userData.data.statusDesc
+                    this.$root.state.isLoginDesc = userData.data.statusDesc;
+                    localStorage.setItem("email",userData.data.email);
+                    localStorage.setItem("islogin", true);
+                    localStorage.setItem("firstname", userData.data.firstname);
+                    localStorage.setItem("lastname", userData.data.lastname);
                     alert(userData.data.statusDesc);
                     this.$router.push('/Profile')
                 }else{
