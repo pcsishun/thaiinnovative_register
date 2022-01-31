@@ -154,4 +154,58 @@ export default {
     color: red;
     margin-top: 1rem;
 }
+
+@media screen and (max-width: 820px){
+.login-container{
+    text-align: center;
+    margin-top: 50px;
+    
+}
+
+.login-title{
+    margin-bottom: 45px;
+    color: rgb(113, 111, 111);
+}
+
+.label-input{
+    margin-top: 40px;
+    color: rgb(113, 111, 111);
+}
+.input-data{
+     margin-top: 15px;
+}
+.btn{
+    margin-top: 35px;
+    width: 30%;
+    border-radius: 30px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.inner-input-data{
+    width: 60%;
+    border: 1px solid rgb(181, 181, 181);
+    border-radius: 8px;
+}
+.login-content{
+    background-color: rgb(218, 216, 216);
+    width: 80%;
+    height: 400px;
+    margin: auto;
+    padding-top: 1px;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.set-title-login-status{
+    text-align: center;
+    margin-top: 9rem;
+}
+
+.error-msg{
+    text-align: center;
+    color: red;
+    margin-top: 1rem;
+}
+
+ }
 </style>

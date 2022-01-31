@@ -247,5 +247,70 @@ export default {
     margin-right: 10px;
 }
 
+@media screen and (max-width: 820px){
+    .title-content{
+    padding-bottom: 1rem;
+}
 
+.register-content{
+    text-align: center;
+    margin-top: 50px;
+}
+
+.avatar-container > input{
+    display: none;
+}
+
+.error-msg-container > h5{
+    color: red;
+    margin-top: 5px;
+}
+
+.image-set-load{
+    border-radius: 50px;
+}
+
+.avatar-container,.btn-submit,.containerCode-container, .firstname-container, .lastname-contianer, .email-contianer, .password-container, .confirm-password-container{
+    margin-top: 20px;
+}
+
+.body-content{
+    background-color: rgb(218, 216, 216);
+    width: 80%;
+    height: 100%;
+    margin: auto;
+    padding-top: 1rem;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.btn{
+    border-radius: 10px;
+}
+.footer-set{
+     height: 50px;
+}
+.set-on-input{
+    border: none;
+    border-radius: 8px;
+    width: 65%;
+}
+.set-btn-border{
+    border: none;
+    background: none;
+}
+
+.set-qr-scaner{
+    width: 250px;
+    height: 250px;
+    margin: auto;
+}
+
+.set-on-input-cam{
+    border: none;
+    width: 45%;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+}
 </style>

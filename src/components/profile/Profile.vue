@@ -14,7 +14,7 @@
                             <label>firstname</label>
                         </div>
                         <div class="set-input">
-                            <input type="text" v-model="newFirstName"/>
+                            <input class="set-input" type="text" v-model="newFirstName"/>
                         </div>
                     </div>
                     <div class="input-content">
@@ -22,7 +22,7 @@
                             <label>lastname</label>
                         </div>
                         <div class="set-input">
-                            <input type="text" v-model="newLastName"/>
+                            <input class="set-input"  type="text" v-model="newLastName"/>
                         </div>
                     </div>
                     <div class="input-content">
@@ -30,7 +30,7 @@
                             <label>password</label>
                         </div>
                         <div class="set-input">
-                            <input type="password" v-model="newPassword"/>
+                            <input class="set-input"  type="password" v-model="newPassword"/>
                         </div>
                     </div>
                     <div class="input-content">
@@ -38,7 +38,7 @@
                             <label>confirm password</label>
                         </div>
                         <div class="set-input">
-                            <input type="password" v-model="confirmPassword"/>
+                            <input class="set-input"  type="password" v-model="confirmPassword"/>
                         </div>
                     </div>
                     <div v-if="errorReply !== null" class="error-reply">
@@ -160,9 +160,10 @@ export default {
     margin-bottom: 50px;
 }
 .set-logout > button{
-    position:absolute;
-    left: 65%;
-    border-radius: 30px;
+        position:absolute;
+        left: 10px;
+        top: 0px;
+        border-radius: 30px;
 }
 .title-profile{
     padding-top: 1rem;
@@ -170,14 +171,58 @@ export default {
 .profile-content{
     padding-bottom: 1rem;
     background-color: rgb(218, 216, 216);
-    width: 50%;
+    width: 45%;
     margin: auto;
     border-radius: 30px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     height: 100%;
 }
+.set-input{
+        border: none;
+        width: 60%;
+        margin: auto;
+        border-radius: 8px;
+    }
 
 .input-content{
     margin-top: 10px;
+}
+
+@media screen and (max-width: 820px){
+    .profile-container{
+        text-align: center;
+        margin-top: 50px;
+        color: rgb(113, 111, 111);
+    }
+    .title-content{
+        margin-bottom: 50px;
+    }
+    .set-logout > button{
+        position:absolute;
+        left: 10px;
+        top: 0px;
+        font-size: 10px;
+        border-radius: 30px;
+    }
+    .title-profile{
+        padding-top: 1rem;
+    }
+    .profile-content{
+        padding-bottom: 1rem;
+        background-color: rgb(218, 216, 216);
+        width: 90%;
+        margin: auto;
+        border-radius: 30px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        height: 100%;
+    }
+    .set-input{
+        border: none;
+        border-radius: 8px;
+    }
+
+    .input-content{
+        margin-top: 10px;
+    }
 }
 </style>
