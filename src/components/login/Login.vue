@@ -70,25 +70,32 @@ export default {
                     email: this.userEmail,
                     password: this.userPassword
                 }
-                // console.log(setUserLogin)
                 
-
-                const userData = await axios.post('http://localhost:3300/userprofile', setUserLogin, headerCongfig);
-                // console.log(userData)
-                if(userData.data.statusLogin === true){
-                    this.$root.state.userPhoto = userData.data.photo;
-                    this.$root.state.isLoginDesc = userData.data.statusDesc;
-                    localStorage.setItem("email",userData.data.email);
-                    localStorage.setItem("islogin", true);
-                    localStorage.setItem("firstname", userData.data.firstname);
-                    localStorage.setItem("lastname", userData.data.lastname);
-                    alert(userData.data.statusDesc);
-                    this.$router.push('/Profile')
-                }else{
-                    this.isError = true
-                    this.$root.state.isLogin = false;
-                    this.$root.state.isLoginDesc = userData.data.statusDesc
+                try{
+                    const userData = await axios.post('http://localhost:3300/userprofile', setUserLogin, headerCongfig);
+                    console.log(userData);
+                    if(userData.data.statusLogin === true){
+                        this.$root.state.userPhoto = userData.data.photo;
+                        this.$root.state.isLoginDesc = userData.data.statusDesc;
+                        localStorage.setItem("email",userData.data.email);
+                        localStorage.setItem("islogin", userData.data.statusLogin);
+                        localStorage.setItem("firstname", userData.data.firstname);
+                        localStorage.setItem("lastname", userData.data.lastname);
+                        localStorage.setItem("token", userData.data.token);
+                        alert(userData.data.statusDesc);
+                        this.$router.push('/Profile')
+                    }else{
+                        this.isError = true
+                        this.$root.state.isLogin = false;
+                        this.$root.state.isLoginDesc = userData.data.statusDesc
+                    }
+                }catch(err){
+                    console.log(err);
+                    this.$root.state.isError = true; 
+                    this.$root.state.isLogin = false; 
+                    this.$root.state.isLoginDesc = "invalid password or email"
                 }
+                
 
                 // console.log(userData);
                 // this.userData = userData.data

@@ -79,10 +79,10 @@ export default {
                 this.errorReply = "password not match."
             }
             else{
-
                 const headerCongfig = {
                 headers:{
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'x-access-token': localStorage.getItem("token")
                     }
                 }
 
@@ -101,6 +101,7 @@ export default {
                     localStorage.removeItem("email");
                     localStorage.removeItem("firstname");
                     localStorage.removeItem("lastname");
+                    localStorage.removeItem("token");
                     this.$root.state.isLogin = false;
                     this.$root.state.userEmail = null;
                     this.$root.state.userFirstName = null;
@@ -109,7 +110,17 @@ export default {
                     console.log(res)
                     
                 }).catch((err) => {
-                    alert(err+ ": copy this error and contact admin.")
+                    alert("please login to update profile!")
+                    localStorage.removeItem("islogin");
+                    localStorage.removeItem("email");
+                    localStorage.removeItem("firstname");
+                    localStorage.removeItem("lastname");
+                    localStorage.removeItem("token");
+                    this.$root.state.isLogin = false;
+                    this.$root.state.userEmail = null;
+                    this.$root.state.userFirstName = null;
+                    this.$root.state.userLastName  = null;
+                    this.$router.push('/')
                     console.log(err)
                 })
             }
@@ -119,6 +130,7 @@ export default {
                 localStorage.removeItem("email");
                 localStorage.removeItem("firstname");
                 localStorage.removeItem("lastname");
+                localStorage.removeItem("token");
                 this.$root.state.isLogin = false;
                 this.$root.state.userEmail = null;
                 this.$root.state.userFirstName = null;
