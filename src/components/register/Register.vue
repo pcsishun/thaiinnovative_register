@@ -13,54 +13,54 @@
                             <input id="avatar-upload" type="file" @change="showFilePreview" />
                         </div>
                         <div class="firstname-container">
-                            <div class="set-label">
+                            <!-- <div class="set-label">
                                 <label>Firstname</label>
-                            </div>
+                            </div> -->
                             <div class="set-input">
-                                <input class="set-on-input" type="text" v-model="firstName" required/>
+                                <input class="set-on-input" type="text" placeholder="ชื่อ" v-model="firstName" required/>
                             </div>
                         </div>
                         <div class="lastname-contianer">
-                            <div class="set-label">
+                            <!-- <div class="set-label">
                                 <label>Lastname</label>
-                            </div>
+                            </div> -->
                             <div class="set-input">
-                                <input class="set-on-input" type="text" v-model="lastName" required/>
+                                <input class="set-on-input" placeholder="นามสกุล" type="text" v-model="lastName" required/>
                             </div>
                         </div>
                         <div class="email-contianer">
-                            <div class="set-label">
+                            <!-- <div class="set-label">
                                 <label>Email</label>
-                            </div>
+                            </div> -->
                             <div class="set-input">
-                                <input class="set-on-input" type="email" v-model="email" required/>
+                                <input class="set-on-input" placeholder="อีเมล" type="email" v-model="email" required/>
                             </div>
                         </div>
                         <div class="password-container">
-                            <div class="set-label">
+                            <!-- <div class="set-label">
                                 <label>Password</label>
-                            </div>
+                            </div> -->
                             <div class="set-input">
-                                <input class="set-on-input" type="password" v-model="password" required/>
+                                <input class="set-on-input" placeholder="รหัสผ่าน" type="password" v-model="password" required/>
                             </div>
                         </div>
                         <div class="confirm-password-container">
-                            <div class="set-label">
+                            <!-- <div class="set-label">
                                 <label>Confirm password</label>
-                            </div>
+                            </div> -->
                             <div class="set-input">
-                                <input class="set-on-input" type="password" v-model="confirmPassword" required/>
+                                <input class="set-on-input" placeholder="ยืนยันรหัสผ่าน" type="password" v-model="confirmPassword" required/>
                             </div>
                         </div>
                         <div class="containerCode-container">
                             <div class="set-qr-scaner" v-if="QRreader === true">
                                 <qrcode-stream  @decode="onDecode"></qrcode-stream>
                             </div>
-                            <div class="set-label">
+                            <!-- <div class="set-label">
                                 <label>Container Code</label>
-                            </div>
+                            </div> -->
                             <div class="set-input">
-                                <input class="set-on-input-cam" type="text" v-model="containerCode" disabled/>
+                                <input class="set-on-input-cam" placeholder="สแกน QRcode" type="text" v-model="containerCode" disabled/>
                                 <span class="img-camera" v-if="QRreader === false">
                                     <button class="set-btn-border" @click="onSetScan">
                                         <i class="fa fa-camera" style="font-size:24px"></i>
@@ -208,6 +208,10 @@ export default {
 
 .avatar-container,.btn-submit,.containerCode-container, .firstname-container, .lastname-contianer, .email-contianer, .password-container, .confirm-password-container{
     margin-top: 20px;
+    margin-bottom: 30px;
+}
+.set-label{
+    margin-bottom: 5px;
 }
 
 .body-content{
@@ -229,6 +233,10 @@ export default {
     border: none;
     border-radius: 8px;
     width: 50%;
+    height: 45px;
+}
+.set-on-input::placeholder{
+    padding-left: 5px;
 }
 .set-btn-border{
     border: none;
@@ -245,6 +253,7 @@ export default {
     border: none;
     border-radius: 8px;
     margin-right: 10px;
+    height: 45px;
 }
 
 @media screen and (max-width: 820px){
@@ -293,6 +302,10 @@ export default {
     border: none;
     border-radius: 8px;
     width: 65%;
+    height: 45px;
+}
+.set-on-input::placeholder{
+    padding-left: 5px;
 }
 .set-btn-border{
     border: none;
@@ -310,6 +323,7 @@ export default {
     width: 45%;
     border-radius: 8px;
     margin-right: 10px;
+    height: 45px;
 }
 
 }
