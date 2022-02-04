@@ -60,7 +60,7 @@
                                 <label>Container Code</label>
                             </div>
                             <div class="set-input">
-                                <input class="set-on-input-cam" type="text" v-model="containerCode" required/>
+                                <input class="set-on-input-cam" type="text" v-model="containerCode" disabled/>
                                 <span class="img-camera" v-if="QRreader === false">
                                     <button class="set-btn-border" @click="onSetScan">
                                         <i class="fa fa-camera" style="font-size:24px"></i>
