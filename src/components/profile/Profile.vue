@@ -66,12 +66,14 @@ export default {
             newLastName: null,
             newPassword: null,
             confirmPassword: null,
+            email:null,
             errorReply: null
         }
     },
     methods:{
  
         async haddleUpdate(){
+
             if(this.newPassword !== this.confirmPassword){
                 this.errorReply = "password not match."
             }
@@ -79,7 +81,7 @@ export default {
                 const headerCongfig = {
                 headers:{
                     'Content-Type': 'application/json',
-                    'x-access-token': localStorage.getItem("token")
+                    'x-access-token': Cookies.get("tai_token")
                     }
                 }
 
@@ -88,7 +90,7 @@ export default {
                     firstName: this.newFirstName,
                     lastName: this.newLastName,
                     password: this.newPassword,
-                    email: localStorage.getItem("email")
+                    email:  this.email
                 }
                await axios.put('http://localhost:3300/updateprofile',bodyData, headerCongfig)
                 .then((res) => {
@@ -119,11 +121,11 @@ export default {
                 const isData = JSON.parse(Cookies.get('tai_data'));
                 this.newFirstName = isData.firstname;
                 this.newLastName = isData.lastname;
+                this.email = isData.email;
 
                 const headerCongfig = {
                     headers:{
                         'Content-Type': 'application/json',
-                        'x-access-token': localStorage.getItem("token")
                         }
                 }
                 const payload = {
