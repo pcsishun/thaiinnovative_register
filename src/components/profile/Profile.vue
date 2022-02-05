@@ -56,6 +56,8 @@
 
 <script>
 import axios from 'axios';
+import Cookies from 'js-cookie';
+
 
 export default {
     data(){
@@ -68,12 +70,7 @@ export default {
         }
     },
     methods:{
-        // debugCheck(){
-        //     console.log(this.newFirstName);
-        //     console.log(this.newLastName);
-        //     console.log(this.newPassword);
-        //     console.log(localStorage.getItem("email"));
-        // },
+ 
         async haddleUpdate(){
             if(this.newPassword !== this.confirmPassword){
                 this.errorReply = "password not match."
@@ -97,67 +94,63 @@ export default {
                 .then((res) => {
                     alert("your data aleardly update.");
                     alert("please login agian.");
-                    localStorage.removeItem("islogin");
-                    localStorage.removeItem("email");
-                    localStorage.removeItem("firstname");
-                    localStorage.removeItem("lastname");
-                    localStorage.removeItem("token");
-                    this.$root.state.isLogin = false;
-                    this.$root.state.userEmail = null;
-                    this.$root.state.userFirstName = null;
-                    this.$root.state.userLastName  = null;
+                    Cookies.remove("tai_token");
+                    Cookies.remove("tai_data");
                     this.$router.push('/');
                     console.log(res)
                     
                 }).catch((err) => {
                     alert("please login to update profile!")
-                    localStorage.removeItem("islogin");
-                    localStorage.removeItem("email");
-                    localStorage.removeItem("firstname");
-                    localStorage.removeItem("lastname");
-                    localStorage.removeItem("token");
-                    this.$root.state.isLogin = false;
-                    this.$root.state.userEmail = null;
-                    this.$root.state.userFirstName = null;
-                    this.$root.state.userLastName  = null;
+                    Cookies.remove("tai_token");
+                    Cookies.remove("tai_data");
                     this.$router.push('/')
                     console.log(err)
                 })
             }
         },
         haddleLogout(){
-                localStorage.removeItem("islogin");
-                localStorage.removeItem("email");
-                localStorage.removeItem("firstname");
-                localStorage.removeItem("lastname");
-                localStorage.removeItem("token");
-                this.$root.state.isLogin = false;
-                this.$root.state.userEmail = null;
-                this.$root.state.userFirstName = null;
-                this.$root.state.userLastName  = null;
-                this.$router.push('/');
+            Cookies.remove("tai_token");
+            Cookies.remove("tai_data");
+            this.$router.push('/');
         },
-        getLocalStore(){
-            this.$root.state.isLogin = (localStorage.getItem("islogin") === 'true');
-            this.$root.state.userFirstName = localStorage.getItem("firstname");
-            this.$root.state.userLastName = localStorage.getItem("lastname");
+        async checkAuth(){
+            
+            try{
+                const isData = JSON.parse(Cookies.get('tai_data'));
+                this.newFirstName = isData.firstname;
+                this.newLastName = isData.lastname;
 
-            this.newFirstName = localStorage.getItem("firstname");
-            this.newLastName = localStorage.getItem("lastname");
+                const headerCongfig = {
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'x-access-token': localStorage.getItem("token")
+                        }
+                }
+                const payload = {
+                    token: Cookies.get("tai_token")
+                 }
 
-            if(this.$root.state.isLogin !== true){
-                localStorage.removeItem("islogin");
-                localStorage.removeItem("email");
-                localStorage.removeItem("firstname");
-                localStorage.removeItem("lastname");
+                const checkingToken = await axios.post('http://localhost:3300/checkoauth',payload, headerCongfig)
+
+                if(checkingToken.statusLogin === false){
+                    Cookies.remove("tai_token");
+                    Cookies.remove("tai_data");
+                    alert("please login to access this pages.");
+                    this.$router.push('/');
+                }else{
+                    console.log("ckecked")
+                }
+            }catch(err){
+                Cookies.remove("tai_token");
+                Cookies.remove("tai_data");
+                alert("please login to access this pages.");
                 this.$router.push('/');
-            }else{
-                console.log("now login")
             }
+            
         }
     },
-    mounted(){
-        this.getLocalStore();
+    created(){
+        this.checkAuth();
     }
 }
 </script>

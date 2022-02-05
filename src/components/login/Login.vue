@@ -33,6 +33,7 @@
 
 <script>
 import axios from 'axios';
+import Cookies from 'js-cookie'
 
 export default {
     data(){
@@ -75,13 +76,19 @@ export default {
                     const userData = await axios.post('http://localhost:3300/userprofile', setUserLogin, headerCongfig);
                     console.log(userData);
                     if(userData.data.statusLogin === true){
-                        this.$root.state.userPhoto = userData.data.photo;
-                        this.$root.state.isLoginDesc = userData.data.statusDesc;
-                        localStorage.setItem("email",userData.data.email);
-                        localStorage.setItem("islogin", userData.data.statusLogin);
-                        localStorage.setItem("firstname", userData.data.firstname);
-                        localStorage.setItem("lastname", userData.data.lastname);
-                        localStorage.setItem("token", userData.data.token);
+    
+                       
+                        Cookies.set("tai_data", JSON.stringify({
+                            "userPhoto": userData.data.photo,
+                            "isLoginDesc": userData.data.statusDesc,
+                            "email": userData.data.email,
+                            "islogin": userData.data.statusLogin,
+                            "firstname": userData.data.firstname,
+                            "lastname": userData.data.lastname
+                        }),{expires: 0.1})
+
+                        Cookies.set("tai_token", userData.data.token,{expires: 0.1})
+
                         alert(userData.data.statusDesc);
                         this.$router.push('/Profile')
                     }else{
